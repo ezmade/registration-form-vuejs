@@ -11,6 +11,7 @@
             <div class="input-field" id="first-name-input-field">
                 <label class="field-label">Имя</label>
                 <input type="text" id="first-name-input" class="input-field-box" v-model.trim="form.first_name">
+                <p class="error" v-if="!v$.form.first_name.$dirty && v$.form.first_name.$invalid">Заполните обязательное поле</p>
             </div>
 
             <div class="input-field" id="third-name-input-field">
@@ -21,7 +22,6 @@
             <div class="input-field" id="birthday-input-field">
                 <label class="field-label">Дата рождения</label>
                 <input type="date" id="birthday-input" class="input-field-box" v-model.trim="form.birthday">
-                <p class="invalid-feedbalck">Ошибка !</p>
             </div>
 
             <div class="radio-select-field" id="gender-select-field">
@@ -62,7 +62,6 @@
             <div class="input-field" id="phone-input-field">
                 <label class="field-label">Телефон</label>
                 <input type="number" id="phone-input" class="input-field-box" v-model.trim="form.phone">
-                <p class="invalid-feedbalck">Ошибка !</p>
             </div>
             
             <div class="input-field" id="check-input-field">
@@ -70,7 +69,7 @@
                 <label class="field-label" for="send-message">Не отправлять СМС</label> 
             </div>
         
-            <button @click="nextStep()" type="button" class="btn">Следующий шаг</button>
+            <button type="submit" class="btn">Следующий шаг</button>
         </div>
 
         <div class="step" v-show="form.step === 2">
@@ -143,7 +142,6 @@
             <div class="input-field" id="document-date-field">
                 <label class="field-label">Дата выдачи</label>
                 <input type="date" id="document-date-input" class="input-field-box" v-model.trim="form.document_date">
-                <p class="invalid-feedbalck">Ошибка !</p>
             </div>
             
             <button @click="previousStep()" type="button" class="btn">Предыдущий шаг</button>
@@ -153,9 +151,13 @@
 </template>
 
 <script>
+    import { useVuelidate } from '@vuelidate/core'
+    import { required } from '@vuelidate/validators'
 
     export default {
-        name: 'RegistrationForm',
+        setup() {
+            return { v$: useVuelidate() }
+        },
         data() {
             return {
                 form: {
@@ -236,8 +238,16 @@
             },
 
             handleSubmit() {
-                console.log('Submitted');
+                this.v$.form.$touch
             }
         },
+
+        validations() {
+            return {
+                form: {
+                    first_name: { required }
+                }
+            }
+        }
     }
 </script>
