@@ -1,25 +1,50 @@
 <template>
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div id="app">
+        <div class=registration-wrapper>
+            <RegistrationForm />
+        </div>
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+    import RegistrationForm from './components/RegistrationForm.vue'
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+    export default {
+        name: "App",
+        components: {
+            RegistrationForm
+        }
+    };
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    html {
+        scroll-behavior: auto;
+        font-size: 62.5%;  /* 1 rem = 10 px */
+    }
+
+    #app {
+        height: 100vh;
+        width: 100vw;
+    }
+
+    .registration-wrapper {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(176, 230, 255);
+    }
+
+    .registration-form {
+        height: 90vh;
+        width: 80vw;
+        background-color: rgb(250, 250, 250);
+        border-radius: 1.5rem;
+    }
 </style>
