@@ -1,5 +1,3 @@
 module.exports = {
-    publicPath: process.env.NODE_ENV === 'production'
-    ? '/registration-form-vuejs'
-    : '/'
+    publicPath: '/registration-form-vuejs/'
 }
