@@ -12,14 +12,16 @@
             v-model.trim="form.last_name"
             @blur="v$.form.last_name.$touch()"
           />
-          <p class="error" v-if="v$.form.last_name.$error">
+          <span class="error" v-if="v$.form.last_name.$error">
             Заполните обязательное поле
-          </p>
+          </span>
         </div>
         <div class="input-field" id="first-name-input-field">
           <label class="field-label">Имя*</label>
           <input
             type="text"
+            pattern="[а-яА-Я]+"
+            data-error="Введите буквы"
             id="first-name-input"
             class="input-field-box"
             v-model.trim="form.first_name"
@@ -50,9 +52,9 @@
             v-model.trim="form.birthday"
             @blur="v$.form.birthday.$touch()"
           />
-          <p class="error" v-if="v$.form.birthday.$error">
+          <span class="error" v-if="v$.form.birthday.$error">
             Заполните обязательное поле
-          </p>
+          </span>
         </div>
 
         <div class="genders">
@@ -102,9 +104,9 @@
               {{ client_group.label }}
             </option>
           </select>
-          <p class="error" v-if="v$.form.client_group.$invalid">
+          <span class="error" v-if="v$.form.client_group.$invalid">
             Заполните обязательное поле
-          </p>
+          </span>
         </div>
 
         <div class="select-field" id="doctor-select-field">
@@ -137,9 +139,9 @@
             v-model.trim="form.phone"
             @blur="v$.form.phone.$touch()"
           />
-          <p class="error" v-if="v$.form.phone.$error">
+          <span class="error" v-if="v$.form.phone.$error">
             Номер телефона должен содержать 11 цифр, начиная с "8"
-          </p>
+          </span>
         </div>
       </div>
 
@@ -208,7 +210,11 @@
             id="city-input"
             class="input-field-box"
             v-model.trim="form.city"
+            @blur="v$.form.city.$touch()"
           />
+          <span class="error" v-if="v$.form.city.$error">
+            Заполните обязательное поле
+          </span>
         </div>
 
         <div class="input-field" id="street-input-field">
@@ -310,7 +316,11 @@
             id="document-date-input"
             class="input-field-box"
             v-model.trim="form.document_date"
+            @blur="v$.form.document_date.$touch()"
           />
+          <span class="error" v-if="v$.form.document_date.$error">
+            Заполните обязательное поле
+          </span>
         </div>
       </div>
       
@@ -463,8 +473,8 @@ export default {
         client_group: { required },
         city: { required },
         document_type: { required },
-        document_date: { required },
-      },
+        document_date: { required }
+      }
     };
   },
 };
@@ -484,7 +494,7 @@ h1 {
   align-items: center;
   min-height: 70vh;
   height: fit-content;
-  width: 80vw;
+  width: 100rem;
   padding: 5rem 2rem;
   background-color: rgb(250, 250, 250);
   border-radius: 1rem;
@@ -496,15 +506,18 @@ h1 {
 .grid {
   display: grid;
   align-items: flex-start;
-  grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
-  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(23rem, 1fr));
+  gap: 4rem;
   margin-bottom: 2rem;
 }
 
 .grid-single {
-  grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
 }
 
+input, select {
+  font-size: 2rem;
+}
 .input-field, .genders{
   display: grid;
 }
@@ -540,7 +553,25 @@ h1 {
   border: 0.5px solid rgba(0, 0, 0, 0.5);
   border-radius: 1rem;
   box-sizing: border-box;
+  transition: 0.2s;
 }
+
+.select-field-box:focus {
+  border-radius: 1rem;
+  outline: none;
+  background: #d3d3d3;
+}
+
+#client-group-select {
+  height: fit-content;
+}
+
+#client-group-select::-webkit-scrollbar {display:none;}
+#client-group-select::-moz-scrollbar {display:none;}
+#client-group-select::-o-scrollbar {display:none;}
+#client-group-select::-google-ms-scrollbar {display:none;}
+#client-group-select::-khtml-scrollbar {display:none;}
+
 
 .check-select-field {
   display: flex;
@@ -557,6 +588,7 @@ h1 {
   justify-content: center;
   padding-right: 2rem;
 }
+
 .btn {
   text-align: center;
   padding: 0 1rem;
@@ -598,7 +630,7 @@ h1 {
 
 .additional-info {
   display: flex;
-  font-style: italic;
+  font-style: normal;
   font-size: 1.1rem;
   margin-top: 2rem;
 }
