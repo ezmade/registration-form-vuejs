@@ -1,5 +1,5 @@
 <template>
-  <form class="registration-form" @submit.prevent="handleSubmit">
+  <form class="registration-form" @submit.prevent="handleSubmit" novalidate>
     <div class="step" v-show="form.step === 1">
       <h1>Создание нового клиента</h1>
       <div class="grid">
@@ -134,13 +134,14 @@
             type="tel"
             id="phone-input"
             class="input-field-box"
-            placeholder="89001234567"
-            pattern="89[0-9]{9}"
+            placeholder="79001234567"
+            pattern="7[0-9]{10}"
             v-model.trim="form.phone"
+            @input="checkValidPhone"
             @blur="v$.form.phone.$touch()"
           />
           <span class="error" v-if="v$.form.phone.$error">
-            Номер телефона должен содержать 11 цифр, начиная с "8"
+            Номер телефона должен содержать 11 цифр, начиная с "7"
           </span>
         </div>
       </div>
@@ -356,7 +357,7 @@ export default {
         first_name: "",
         last_name: "",
         third_name: "",
-        birthday: "1970-01-01",
+        birthday: "",
         gender: "male",
         client_group: ["ОМС"],
         doctor: "Иванов",
@@ -372,7 +373,7 @@ export default {
         document_serial: "",
         document_number: "",
         document_organization: "",
-        document_date: "1970-01-01",
+        document_date: "",
       },
 
       doctors: [
@@ -453,7 +454,7 @@ export default {
     },
 
     handleSubmit() {
-      alert("Пользователь успешно создан!");
+      alert("Новый клиент успешно создан.");
       return;
     },
   },
@@ -461,11 +462,20 @@ export default {
   validations() {
     return {
       form: {
-        first_name: { required },
-        last_name: { required },
-        birthday: { required },
+        first_name: { 
+          required
+        },
+        last_name: { 
+          required
+        },
+        birthday: { 
+          required
+        },
         phone: {
           required,
+          validPhone() {
+            return this.form.phone.toString()[0] == 7;
+          }, 
           minLength: minLength(11),
           maxLength: maxLength(11),
           integer,
@@ -540,7 +550,7 @@ input, select {
 .input-field-box:focus {
   border-radius: 1rem;
   outline: none;
-  background: #d3d3d3;
+  background: rgb(196, 226, 255);
 }
 
 .select-field {
@@ -559,7 +569,7 @@ input, select {
 .select-field-box:focus {
   border-radius: 1rem;
   outline: none;
-  background: #d3d3d3;
+  background: rgb(196, 226, 255);
 }
 
 #client-group-select {
